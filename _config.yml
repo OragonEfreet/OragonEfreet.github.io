@@ -11,8 +11,8 @@ email:
 description: Code is Cute
 baseurl: "" # the subpath of your site, e.g. /blog
 url: 
-twitter_username: jekyllrb
-github_username:  jekyll
+twitter_username: 
+github_username:  OragonEfreet
 disqus: codework-orange
 
 # Build settings
