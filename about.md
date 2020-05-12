@@ -1,15 +1,24 @@
 ---
 layout: page
-title: About
+title: About Me
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Hi! My name is Kevin. I code, I play video games, I have cats.
+Also I am an orange.
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jglovier" %} /
-[jekyll-new](https://github.com/jglovier/jekyll-new)
+---
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+This website is hosted on [Github](https://github.com) and is generated using [Jekyll](https://jekyllrb.com/).
+
+[Disqus](https://disqus.com/) is used for comment.
+
+If you find any typo or error in a post, you can help by commenting or proposing a change using the link on the bottom of each post.
+
+Contributors:
+{% for contributor in site.github.contributors %}
+- ![Avatar]({{ contributor.avatar_url }}){: style="width: 30px;vertical-align:center;"}
+[@{{ contributor.login }}]({{ contributor.html_url }})
+{: .contributor }
+{% endfor %}
+
