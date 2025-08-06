@@ -1,8 +1,8 @@
 ---
-title: "A working draft title"
-description: "This post is for testing the draft post functionality"
-publishDate: "10 March 2024"
-tags: ["test"]
+title: "So, I'm making a game engine"
+description: "Thoughs about coding a game engine in C99"
+publishDate: "2025-08-06"
+tags: ["c", "banjo"]
 draft: true
 ---
 
