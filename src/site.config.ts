@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
 	*/
 	title: "A Codework Orange",
 	// ! Please remember to replace the following site property with your own domain, used in astro.config.ts
-	url: "https://OragonEfreet.github.io",
+	url: "https://www.codework-orange.io",
 };
 
 // Used to generate links in both the Header & Footer.
