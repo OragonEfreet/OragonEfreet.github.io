@@ -1,7 +1,7 @@
 ---
-title: Hello, Welcome
-description: An introduction to using the note feature in Astro Cactus
-publishDate: "2024-10-14T11:23:00Z"
+title: New Website
+description: Annoucing the blog
+publishDate: "2025-08-06"
 ---
 
 Hi, Hello. This is an example note feature included with Astro Cactus.
