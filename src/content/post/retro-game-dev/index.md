@@ -14,12 +14,11 @@ I'll go year by year, going through video game history.
 
 As of today, the list has a single game: [Pong](1972-pong).
 
-This project also drives [the developpement of Banjo API](/posts/banjo).
-Indeed, my game engine project came out of a boilerplate-heavy phase, providing only essential features.
-Now, any new Banjo feature must be developped in the context of an actual game to make.
+This project is open source, and available from the [retro-game-dev GitHub repository](https://github.com/OragonEfreet/retro-game-dev).
+
+This project drives [the developpement of my Banjo API](/posts/banjo).
+Any new feature in the API must be developped in the context of an actual game to make.
 This happens either because the current game needs the feature, or because finishing the game uncovers new ways to improve Banjo.
-For example, currently Banjo only provides software graphics through basic primitives and bitmap blitting, and audio support is currently limited to basic PCM playback.
-Well that's already more than enough for all games from the 70's and even after.
 By moving chronologically, I can gradually ramp up complexity and tackle new challenges one game at a time.
 
 
