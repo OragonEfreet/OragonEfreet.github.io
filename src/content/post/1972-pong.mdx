@@ -1,0 +1,54 @@
+---
+title: "1972 - Pong"
+description: "Pong clone devlog"
+publishDate: "2025-08-11"
+tags: ["c", "gamedev", "pong"]
+draft: false
+---
+
+I could not have started [a journey into video game through ages](/posts/retro-game-dev) without starting with the iconic **Pong**.
+Well, technically, Pong is _not_ the first video game.
+
+The first game to be made available on several academic-purpose computers was _Spacewar!_ (1961), a two-player spaceship dogfighting game.
+At the time, it was still inconceivable for anyone to get their hands on the game, since buying the machine it ran on would have been the modern equivalent of purchasing an MRI machine for your living room.
+
+In 1971, Nolan Bushnell and Ted Dabney adapted _Spacewar!_ to arcade form and created _Computer Space_.
+The following year, they founded _Atari, Inc._, and hired Allan Alcorn, who went on to design _Pong_.
+That game became the first commercially successful video game and marked the beginning of a new era for the video game industry.
+
+import BanjoGame from "@/components/BanjoGame.jsx";
+
+{/* Files live at /public/games/pong.js and /public/games/pong.wasm */}
+<BanjoGame client:load game="pong">
+Left player: Up = **Z/W**, Down = **S**.
+Right player: Up = **Up/K**, Down = **Down/J**.
+Use **ESC** to reset the game.
+Game automatically ends when a player scores 2 points more than the other or when a score reaches 15.
+</BanjoGame>
+
+There’s nothing much to say about my version of Pong itself, so I won’t go into any code details here.
+If you want to take a look, [the code is here](https://github.com/OragonEfreet/retro-game-dev/blob/main/src/pong.c).
+The only real change I made was adding a touch of “abrupt chaos” by making the ball bounce off the paddle at a random new angle each time, instead of basing it on where the ball hits (like in the original game).
+
+Despite _Pong_’s simplicity, there were a few interesting takeaways.
+
+**As long as you can draw filled rectangles on a screen, you can draw Pong.**
+The only exception is displaying the score.
+For that, I wrote a basic “digits blit” system that uses a sprite sheet containing all digits in a single bitmap, then blits the needed part into the screen framebuffer.
+It’s simple enough for this game, but it won’t handle numbers with more than two digits — which is why the score caps at 15.
+
+For the next games, I will surely need to provide a way to write basic ASCII texts.
+I will make a post about it later.
+
+**Luckily, the original _Pong_ audio was just _boop_ and _beep_.**
+When the ball hits a wall or paddle, the game beeps at 573.88 Hz for about 0.1 second.
+When a player loses the ball, it boops at 286.94 Hz for a full second.
+At least, that’s what I gathered from a few YouTube videos — and I’m sticking to it.
+I say “luckily” because my current codebase can only generate raw pulses at specific frequencies, so anything more elaborate will have to wait for later projects.
+Chances are, I won’t really need it until I hit 1980s games.
+
+The left paddle is controlled with W (up) and S (down).
+But on my French keyboard layout, W sits below S, and the Z key is actually where the W would be on QWERTY.
+Since my event system is layout-dependent, at least one layout would always end up with awkward controls.
+To “fix” this, I simply assigned the left paddle’s up control to both W and Z at the same time.
+In future projects, **I’ll need a way to let players define their own key mappings** — or at least give the developer the choice between using virtual and physical key codes.
