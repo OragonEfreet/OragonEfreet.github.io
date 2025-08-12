@@ -121,3 +121,12 @@
   --tw-prose-quotes:     var(--color-quote);
   --tw-prose-th-borders: #666;
 }
+
+
+code::before,
+code::after {
+  content: none !important;
+}
+code {
+   @apply font-semibold;
+}
