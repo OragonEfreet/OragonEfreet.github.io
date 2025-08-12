@@ -1,20 +1,27 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import SocialList from "@/components/SocialList.astro";
 
 const meta = {
-description: "I'm a starter theme for Astro.build",
+description: "About A Codework Orange",
 title: "About",
 };
 ---
 
 <PageLayout meta={meta}>
 <h1 class="title mb-6">About</h1>
+<SocialList />
 <div class="prose prose-sm prose-cactus max-w-none">
   <p>Hello, my name is Kevin and I am not yet a game developer.</p>
 
   <p>
+    This blog is used to present the <a href="/posts/retro-game-dev">games I am making</a> as well as the <a href="https://codework-orange.io/banjo/index.html">Banjo API</a>
+  </p>
+
+
+  <p>
   This website was built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>, styled using the excellent <a href="https://github.com/chrismwilliams/astro-theme-cactus" target="_blank" rel="noopener noreferrer">Astro Cactus theme</a> by Chris Williams.
-  Its design was further tweaked with help from <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer">ChatGPT</a> by OpenAI because I don't understand anything about CSS.
+  Its design was further tweaked with help from <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer">ChatGPT</a> by OpenAI because I don't know shit about CSS.
   </p>
 </div>
 </PageLayout>

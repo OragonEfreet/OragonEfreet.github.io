@@ -15,9 +15,16 @@ export function getFormattedDate(
 	}).format(date);
 }
 
-export function collectionDateSort(
-	a: CollectionEntry<"post" | "note">,
-	b: CollectionEntry<"post" | "note">,
-) {
-	return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+// export function collectionDateSort(
+// 	a: CollectionEntry<"post" | "note">,
+// 	b: CollectionEntry<"post" | "note">,
+// ) {
+// 	return b.data.publishDate.getTime() - a.data.publishDate.getTime();
+// }
+
+export function collectionDateSort(a: CollectionEntry<any>, b: CollectionEntry<any>) {
+  const dateA = new Date(a.data.updatedDate || a.data.publishDate);
+  const dateB = new Date(b.data.updatedDate || b.data.publishDate);
+
+  return dateB.getTime() - dateA.getTime(); // descending order
 }

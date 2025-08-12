@@ -5,20 +5,26 @@ publishDate: "2025-08-06"
 tags: ["c", "gamedev"]
 ---
 
-This is the master page of what I will call the *Retro Game Dev* project.
-I will update it with links to other related blog posts when they come out.
-
 Retro Game Dev is a roadmap of about 50 games I will make.
-For each year since 1972, I'll pick a landmark game from that yeat and build my own version.
+For each year since 1972, I'm picking a landmark game from that yeat and build my own version.
 I'll go year by year, going through video game history.
 
-As of today, the list has a single game: [Pong](1972-pong).
+For now, I'm just presenting the 1970's decade:
 
-This project is open source, and available from the [retro-game-dev GitHub repository](https://github.com/OragonEfreet/retro-game-dev).
+| Year | Game                                                                                |
+|------|-------------------------------------------------------------------------------------|
+| 1972 | ~Hunt the Wumpus~, ~Maze~, [**Pong**](/posts/1972-pong), ~Star Trek~, ~Spacewar!~   |
+| 1973 | *Empire*, *Gotcha*, *Lunar Lander*, *Maze War*, *Space Race*                        |
+| 1974 | *Gran Trak 10*, *Maze War*, *Qwak!*, *Speed Race*, *Tank*                           |
+| 1975 | *Crash 'N Score*, *Gun Fight*, *Hi-way*, *Indy 800*, *Steeplechase*                 |
+| 1976 | *Breakout*, *Death Race*, *Heavyweight Champ*, *Night Driver*, *Sea Wolf*           |
+| 1977 | *Canyon Bomber*, *Combat*, *Street Racer*, *Surround*, *Video Olympics*             |
+| 1978 | *Atari Football*, *Avalanche*, *Fire Truck*, *Sky Diver*, *Space Invaders*          |
+| 1979 | *Asteroids*, *Galaxian*, *Head On*, *Lunar Lander*, *Monaco GP*                     |
 
-This project drives [the developpement of my Banjo API](/posts/banjo).
-Any new feature in the API must be developped in the context of an actual game to make.
-This happens either because the current game needs the feature, or because finishing the game uncovers new ways to improve Banjo.
-By moving chronologically, I can gradually ramp up complexity and tackle new challenges one game at a time.
+For each year, I choose over a list of 5 games, hence the long list.
+When a game is available for playing, I provide a link to it and all the 4 other games are striked-out.
+
+This project is open source, and available from the [GitHub repository](https://github.com/OragonEfreet/retro-game-dev).
 
 
