@@ -130,3 +130,49 @@ code::after {
 code {
    @apply font-semibold;
 }
+/* ============================
+   Widen Cactus container + prose
+   ============================ */
+@layer components {
+  /* Many Cactus builds constrain width with these classes.
+     Force the main content wrapper to ~80 characters. */
+  main :where(.container, .mx-auto, .max-w-prose, .max-w-3xl, .max-w-2xl) {
+    max-width: 80ch !important;
+  }
+
+  /* Tailwind Typography sets .prose { max-width: 65ch } — override it. */
+  :where(.prose) {
+    max-width: 80ch !important;
+  }
+
+  /* Keep paragraphs readable on small screens */
+  @media (max-width: 640px) {
+    :where(.prose) { max-width: 100% !important; }
+  }
+
+  /* Code blocks: do NOT wrap; scroll horizontally if needed */
+  .prose pre {
+    overflow-x: auto;
+    white-space: pre;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent Typography from soft-wrapping long identifiers in code */
+  .prose code {
+    white-space: pre-wrap;     /* inline code wraps if needed */
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+}
+
+/* Optional: let code blocks “break out” a bit wider than text while staying centered */
+@layer components {
+  .prose pre {
+    width: min(100%, 110ch); /* code wider than prose */
+    margin-left: calc(50% - min(55ch, 50%));
+    margin-right: calc(50% - min(55ch, 50%));
+  }
+}
+
+/* You already fixed faux backticks, keep this here */
+code::before, code::after { content: none !important; }
