@@ -62,7 +62,7 @@ This draws an unscaled 8x8 pixel character at the given position (`x`/`y`):
 
 ![Drawing a 'B'](basic_b.png)
 
-### Simplifying Column Access by Flipping Bits
+### Simpler Column Access
 
 Now, this could be simplified, by horizontally flipping the encoded character.
 This way, the bit shift is directly taken from the column:
@@ -83,7 +83,7 @@ for(size_t row = 0 ; row < 8 ; ++row) {
 
 And of course, we don't want to write a single char, but an entire text.
 
-## Building a Complete Font Atlas
+## Building a Font Atlas
 
 ### Loading a Prebuilt Charset
 
@@ -109,7 +109,7 @@ This table covers all letters from [Basic Latin](https://en.wikipedia.org/wiki/L
 This will be a good start for simple text rendering.
 Most importantly, this also means that I can directly take the `char` ASCII values from a C-style string and use them as indexes for my array (`charset_latin1['B']`).
 
-### Arranging Glyphs into a Bitmap Grid
+### A Bitmap of Glyphs
 
 Now, let's make a dedicated bitmap to contain all the characters of this table.
 First, we decide the dimensions of our character bitmap.
@@ -167,7 +167,7 @@ And here’s the result:
 
 ## Rendering Text
 
-### Drawing a Single Character with Blitting
+### Blitting One Character
 
 Displaying text on a bitmap will require something called *blitting*.
 Blitting is about taking a portion of a bitmap and copying it into another bitmap.
@@ -219,7 +219,7 @@ And voilà!
 
 ---
 
-### Drawing Multiple Characters
+### Drawing a String
 
 ```c
 const char* text = "Hello, World!";
