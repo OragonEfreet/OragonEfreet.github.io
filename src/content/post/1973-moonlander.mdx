@@ -116,6 +116,44 @@ And here's our lander, displayed on a 50x40 pixel grid:
 
 ![A lander with X/Y coordinates](moonlander_coords_xy.png)
 
+Now, this is good, but rather inconvenient.
+Most of the time, the ship is rotating from the player's inputs.
+The displacement of the ship entirely depends on its angle rather than being aligned to X or Y.
+It feels simpler to use [polar coordinates](https://en.wikipedia.org/wiki/Polar_coordinate_system) instead.
+
+While cartesian coordinates are used to express a position using a vector along each axis (X and Y), polar coordinates store two other information:
+how far the position is from the origin (the radius) and the angle the x/y vector makes from the X (or Y) axis.
+
+:::important
+Add program showing trigonometry
+:::
+
+So, first, let's go back to the initial coordinates, that I still start from, for simplicity.
+But now, I'm also providing a new array of two floats.
+Each element of this new array is a _[ρ, θ]_ pair, where _ρ_ is the distance from origin, and _θ_ is the angle between the X/Y vector, and the X axis.
+
+To convert from cartesian to polar coords, we compute
+
+```c
+const int lander_coords[][2] = {
+    // ... unchanged
+};
+
+float lander_polar_coords[24][2];
+
+for(size_t c = 0 ; c < 24 ; ++c) {
+    const float x = lander_coords[c][0];
+    const float y = lander_coords[c][1];
+
+    lander_polar_coords[c][0] = sqrt(x * x + y * y);
+    lander_polar_coords[c][1] = atan2f(y, x);
+}
+```
+
+
+
+
+
 
 
 
