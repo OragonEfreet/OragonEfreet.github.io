@@ -49,36 +49,42 @@ This function is enough to draw anything wireframey, given we feed it with the c
 So let's define a set of points in 2D space:
 
 ```c
-const int lander_coords[][2] = {
-    {-3, -7,},  {-7, -3,}, {-7, 3,},   {-3, 7,},
-    {3, 7,},    {7, 3,},   {7, -3,},   {3, -7,},
-    {-8, 8,},   {-8, 13,}, {8, 13,},   {8, 8,},
-    {-3, 8,},   {3, 8,},   {-4, 13,},  {-7, 16,},
-    {7, 16,},   {4, 13,},  {-10, 13,}, {-13, 17,},
-    {-10, 17,}, {10, 12,}, {10, 17,},  {13, 17,},
+#define LANDER_VERTICES_LEN 22
+
+const float lander_coords[LANDER_VERTICES_LEN][2] = {
+    {-3, -7}, {-7, -3}, {-7, 3}, {-3, 7},   {3, 7},
+    {7, 3},   {7, -3},  {3, -7}, {-8, 8},   {-8, 13},
+    {8, 13},  {8, 8},   {-3, 8}, {3, 8},    {-4, 13},
+    {-7, 16}, {7, 16},  {4, 13}, {-13, 17}, {-10, 17},
+    {10, 17}, {13, 17},
 };
 ```
 
 Alone, these are just pixel positions, without shaping anything yet.
 The pixel at index _0_ is _x = -3, y = -7_ and so on.
+Displaying all pixels of this array on a canvas would render this:
 
+![A cloud of lander points](moonlander_coords.gif)
+
+Instead, let's connect the dots!
 We now add a second array, that lists the lines that our lander is made of:
 
-
 ```c
-const size_t lander_edges[][2] = {
+#define LANDER_EDGES_LEN 25
+
+const size_t lander_edges[LANDER_EDGES_LEN][2] = {
     // Head
-    {0, 1,}, {1, 2,}, {2, 3,}, {3, 4,}, {4, 5,}, {5, 6,}, {6, 7,}, {7, 0,}, 
-    // Base
-    {8, 9,},   {9, 10,}, {10, 11,},  {11, 8,},  
+    {0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 7}, {7, 0}, 
+    //Base
+    {8, 9}, {9, 10}, {10, 11}, {11, 8},  
     // Neck
-    {3, 12,},  {4, 13,},
-    // Left leg
-    {8, 19,}, {19, 20,},  {9, 20,}, {9, 19,},  
-    // Right leg
-    {11, 23,}, {22, 23,}, {10, 22, }, {10, 23,}, 
+    {3, 12}, {4, 13},
+    // Left Leg
+    {8, 18}, {18, 19}, {9, 19}, {9, 18},  
+    // Right Leg
+    {11, 21}, {20, 21}, {10, 20}, {10, 21}, 
     // Thrusters
-    {14, 15,}, {15, 16,}, {16, 17,},
+    {14, 15}, {15, 16}, {16, 17},
 };
 ```
 
@@ -102,7 +108,7 @@ In the following code, I also shift all the coordinates by `x` and `y`, in order
 int x = CANVAS_W / 2;
 int y = CANVAS_H / 2;
 
-for (size_t e = 0; e < 25; ++e) {
+for (size_t e = 0; e < LANDER_EDGES_LEN; ++e) {
     const float x0 = lander_coords[lander_edges[e][0]][0];
     const float y0 = lander_coords[lander_edges[e][0]][1];
     const float x1 = lander_coords[lander_edges[e][1]][0];
@@ -139,9 +145,9 @@ const int lander_xy_coords[][2] = {
     // ... unchanged
 };
 
-float lander_coords[24][2]; // Now polar coordinates
+float lander_coords[LANDER_VERTICES_LEN][2]; // Now polar coordinates
 
-for(size_t c = 0 ; c < 24 ; ++c) {
+for(size_t c = 0 ; c < LANDER_VERTICES_LEN ; ++c) {
     const float x = lander_xy_coords[c][0];
     const float y = lander_xy_coords[c][1];
 
@@ -154,13 +160,13 @@ The drawing part can now be updated to read the polar coordinates and convert th
 Converting back to Cartesian gives $x = r \cos\theta$ and $y = r \sin\theta$:
 
 ```c
-const int x = CANVAS_W / 2;
-const int y = CANVAS_H / 2;
+int x = CANVAS_W / 2;
+int y = CANVAS_H / 2;
 
 float lander_angle = 0.f;
 float lander_size = 1.f;
 
-for (size_t e = 0; e < 25; ++e) {
+for (size_t e = 0; e < LANDER_VERTICES_LEN; ++e) {
     const float r0 = lander_coords[lander_edges[e][0]].radius * lander_size;
     const float a0 = lander_coords[lander_edges[e][0]].angle  + lander_angle;
     const float r1 = lander_coords[lander_edges[e][1]].radius * lander_size;
@@ -189,7 +195,8 @@ But now, manipulating the ship is really easy.
 In the above snippet, I provide `lander_angle` and `lander_size`.
 The former modifies the angle for all coordinates, and the latter changes the radius.
 
-Now, after a small edit on the initial coordinates to lower the center of the ship, and added some green color, we have our ship:
+Now, after a small edit on the initial coordinates to lower the center of the ship, and added some green color, we have our ship.
+We can play with `lander_angle` and `lander_size` to rotate and scale the lander:
 
 ![A lander with polar coordinates](moonlander_spin.gif)
 
