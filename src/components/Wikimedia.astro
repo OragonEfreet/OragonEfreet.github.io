@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+
+export interface Props {
+  file: string;
+  alt?: string;
+  title?: string;
+  showCaption?: boolean;
+  class?: string;
+  imgClass?: string;
+  float?: 'right' | 'left' | null;
+  layout?: 'constrained' | 'fixed' | 'full-width';
+  width?: number;
+  height?: number;
+}
+
+const stripHtml = (html?: string) =>
+  (html ?? '').replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]*>/g, '').trim();
+
+const {
+  file,
+  alt,
+  title,
+  showCaption = true,
+  class: figureClass = '',
+  imgClass = '',
+  float = null,
+  layout = 'constrained',
+  width,
+  height,
+} = Astro.props;
+
+if (!file) throw new Error('<Wikimedia /> requires a `file` prop');
+
+const api = new URL('https://commons.wikimedia.org/w/api.php');
+api.searchParams.set('action', 'query');
+api.searchParams.set('format', 'json');
+api.searchParams.set('prop', 'imageinfo');
+api.searchParams.set('titles', `File:${file}`);
+api.searchParams.set('iiprop', 'url|size|mime|extmetadata');
+api.searchParams.set('iiextmetadata', '1');
+api.searchParams.set('uselang', 'en');
+
+const resp = await fetch(api.toString());
+if (!resp.ok) throw new Error(`Wikimedia API error: ${resp.status}`);
+const data = await resp.json();
+
+const pages = data?.query?.pages ?? {};
+const firstPage: any = Object.values(pages)[0] ?? {};
+const info = firstPage?.imageinfo?.[0];
+if (!info?.url) throw new Error(`Could not resolve original URL for "${file}"`);
+
+const originalUrl: string = info.url;
+const filePageUrl: string = info.descriptionurl;
+const meta = info.extmetadata ?? {};
+
+const metaTitle = stripHtml(meta.ObjectName?.value) || file.replace(/_/g, ' ');
+const metaDesc  = stripHtml(meta.ImageDescription?.value);
+const creditTitle = title || metaTitle;
+
+const artistRaw = meta.Artist?.value;
+const artist = stripHtml(artistRaw);
+
+// alt priority
+const resolvedAlt = alt || metaDesc || creditTitle || file.replace(/_/g, ' ');
+
+// float helpers
+const floatClass =
+  float === 'right' ? 'float-right ml-4 mb-2'
+  : float === 'left'  ? 'float-left mr-4 mb-2'
+  : '';
+
+// infer size if width/height not both given
+const useInferSize = !(width && height);
+const inferSizeAttr = useInferSize ? true : undefined;
+const widthAttr = typeof width === 'number' ? width : undefined;
+const heightAttr = typeof height === 'number' ? height : undefined;
+const layoutAttr = layout || undefined;
+---
+
+<figure class={`inline-block w-fit max-w-full ${floatClass} ${figureClass}`.trim()}>
+  <Image
+    src={originalUrl}
+    alt={resolvedAlt}
+    class={`align-middle ${imgClass}`.trim()}
+    inferSize={inferSizeAttr}
+    layout={layoutAttr}
+    width={widthAttr}
+    height={heightAttr}
+  />
+  {showCaption && filePageUrl && (
+    <figcaption class="mt-1 text-xs text-gray-500 text-center leading-snug">
+      <a href={filePageUrl} target="_blank" rel="noopener noreferrer">
+        <em>{creditTitle}</em>
+      </a>
+      {artist ? ` by ${artist}` : ''}
+    </figcaption>
+  )}
+  {showCaption && !filePageUrl && (
+    <figcaption class="mt-1 text-xs text-gray-500 text-center leading-snug">
+      <em>{creditTitle}</em>{artist ? ` by ${artist}` : ''}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  /* Keep figure shrink-wrapped to image width */
+  figure :global(img) { width: auto; max-width: 100%; height: auto; }
+</style>
