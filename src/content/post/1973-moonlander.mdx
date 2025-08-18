@@ -128,37 +128,68 @@ how far the position is from the origin (the radius) and the angle the x/y vecto
 Add program showing trigonometry
 :::
 
-So, first, let's go back to the initial coordinates, that I still start from, for simplicity.
+So, first, let's go back to the initial coordinates.
 But now, I'm also providing a new array of two floats.
 Each element of this new array is a _[ρ, θ]_ pair, where _ρ_ is the distance from origin, and _θ_ is the angle between the X/Y vector, and the X axis.
 
-To convert from cartesian to polar coords, we compute
+We can quickly compute from cartesian to polar coordinates with $ρ = \sqrt{x^2+y^2}$ and $\theta = \operatorname{atan2}(y,x)$.
 
 ```c
-const int lander_coords[][2] = {
+const int lander_xy_coords[][2] = {
     // ... unchanged
 };
 
-float lander_polar_coords[24][2];
+float lander_coords[24][2]; // Now polar coordinates
 
 for(size_t c = 0 ; c < 24 ; ++c) {
-    const float x = lander_coords[c][0];
-    const float y = lander_coords[c][1];
+    const float x = lander_xy_coords[c][0];
+    const float y = lander_xy_coords[c][1];
 
-    lander_polar_coords[c][0] = sqrt(x * x + y * y);
-    lander_polar_coords[c][1] = atan2f(y, x);
+    lander_coords[c][0] = sqrt(x * x + y * y);
+    lander_coords[c][1] = atan2f(y, x);
 }
 ```
 
+The drawing part can now be updated to read the polar coordinates and convert them back to cartesian before calling `draw_line`.
+Converting back to Cartesian gives $x = r \cos\theta$ and $y = r \sin\theta$:
 
+```c
+const int x = CANVAS_W / 2;
+const int y = CANVAS_H / 2;
 
+float lander_angle = 0.f;
+float lander_size = 1.f;
 
+for (size_t e = 0; e < 25; ++e) {
+    const float r0 = lander_coords[lander_edges[e][0]].radius * lander_size;
+    const float a0 = lander_coords[lander_edges[e][0]].angle  + lander_angle;
+    const float r1 = lander_coords[lander_edges[e][1]].radius * lander_size;
+    const float a1 = lander_coords[lander_edges[e][1]].angle  + lander_angle;
 
+    const float x0 = cosf(a0) * r0;
+    const float y0 = sinf(a0) * r0;
+    const float x1 = cosf(a1) * r1;
+    const float y1 = sinf(a1) * r1;
 
+    draw_line(x + x0, y + y0, x + x1, y + y1);
+}
+```
 
+![A lander with polar coordinates](moonlander_coords_polar_low.png)
 
+Ok, the display is a bit weird.
+The legs seem different compared to the previous draw.
+This is due to how low the resolution is and rounding/truncating floats.
+If we increate the game resolution, let's say 200/150, we get a better result:
 
+![A lander with polar coordinates](moonlander_coords_polar_high.png)
 
+We may wonder why bother converting back and forth between polar and X/Y coordinates.
+But now, manipulating the ship is really easy.
+In the above snippet, I provide `lander_angle` and `lander_size`.
+The former modifies the angle for all coordinates, and the latter changes the radius.
 
+Now, after a small edit on the initial coordinates to lower the center of the ship, and added some green color, we have our ship:
 
+![A lander with polar coordinates](moonlander_spin.gif)
 

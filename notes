@@ -1,0 +1,3 @@
+Convert webm to gif:
+
+ffmpeg -i input.webm -filter_complex "fps=30,split[x][z];[x]palettegen[p];[z][p]paletteuse" output.gif
